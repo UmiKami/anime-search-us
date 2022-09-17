@@ -32,7 +32,7 @@ function App() {
               return (
                 <div className="d-flex flex-column col-3 mb-4" key={uuidv4()}>
                   <img src={anime.attributes.posterImage.medium} alt="anime poster" />
-                  <p>{Object.values(anime.attributes.titles)[0]}</p>
+                  <p>{Object.values(anime.attributes.titles)[0] ? Object.values(anime.attributes.titles)[0] : Object.values(anime.attributes.titles)[1]}</p>
                 </div>
               )
             })
