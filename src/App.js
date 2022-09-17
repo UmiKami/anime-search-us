@@ -32,7 +32,7 @@ function App() {
           {
             animeList.length !== 0 ? animeList.map((anime) => {
               return (
-                <div className="d-flex flex-column col-3 mb-4" key={uuidv4()}>
+                <div className="d-flex flex-column col-sm-3 mb-4" key={uuidv4()}>
                   {
                     !loading ? <img src={anime.attributes.posterImage.large} alt="anime poster" />
                       : <div className="d-flex justify-content-center">
