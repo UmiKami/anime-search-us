@@ -12,7 +12,7 @@ function App() {
 
     axios.get(`https://kitsu.io/api/edge/anime?filter[text]=${inputVal}`)
       .then(res => {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         setAnimeList(res.data.data)
       })
       .catch(error => console.log(error))
