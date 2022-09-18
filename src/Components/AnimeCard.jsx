@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const AnimeCard = ({ loading, anime }) => {
+const AnimeCard = ({ anime }) => {
+    const [loading, setLoading] = useState(true);
+    const [imgError, setImgError] = useState(false);
+    
+    const handleImgError = (error) => {
+        console.log(error);
+        setImgError(true)
+    }
+
     const handleTitleEnter = (hoverEvent) => {
         hoverEvent.target.scroll(0, 41);
     };
@@ -9,10 +18,17 @@ const AnimeCard = ({ loading, anime }) => {
         hoverEvent.target.scroll(0, 0);
     };
 
+    useEffect(()=>{
+        setTimeout(()=>{
+            setLoading(false)
+        }, 800)
+
+    }, [])
+
+    console.log(loading);
+
     return (
-        <div
-            className="d-flex flex-column col-md-3 mb-4 position-relative"
-        >
+        <div className="d-flex flex-column col-md-3 mb-4 position-relative">
             {!loading ? (
                 <>
                     {anime.attributes.status === "finished" ? (
@@ -28,12 +44,24 @@ const AnimeCard = ({ loading, anime }) => {
                             Coming Soon
                         </span>
                     )}
-                    <Link to={`/anime/${anime.id}`} style={{ textDecoration: "none" }}>
-                        <img
-                            src={anime.attributes.posterImage.large}
-                            alt="anime poster"
-                            className="col-12"
-                        />
+                    <Link
+                        to={`/anime/${anime.id}`}
+                        style={{ textDecoration: "none" }}
+                    >
+                        {!imgError ? (
+                            <img
+                                src={anime.attributes.posterImage.large}
+                                alt="anime poster"
+                                className="col-12"
+                                onError={handleImgError}
+                            />
+                        ) : (
+                            <img
+                                src={require("../img/posterPlaceholder.webp")}
+                                className="col-12"
+                                alt="placeholder for anime poster"
+                            />
+                        )}
                         <p
                             className="fs-4 bg-primary text-light mb-0 anime-title"
                             onMouseEnter={handleTitleEnter}
