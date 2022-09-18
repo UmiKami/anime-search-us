@@ -34,6 +34,8 @@ function App() {
   return (
     <div className="App">
       <div className="container mt-5">
+        <h1 className='mb-5 text-success'>Anime Search</h1>
+
         <form className="d-flex" role="search" onSubmit={handleSubmit}>
           <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
           <button className="btn btn-outline-success" type="submit">Search</button>
@@ -53,7 +55,7 @@ function App() {
                                   src={anime.attributes.posterImage.large}
                                   alt="anime poster"
                               />
-                              <p>
+                              <p className='fs-4 bg-primary text-light'>
                                   {Object.values(anime.attributes.titles)[0]
                                       ? Object.values(
                                             anime.attributes.titles
