@@ -62,3 +62,31 @@
 .card-description::-webkit-scrollbar-thumb:hover {
   background: #226fec;
 }
+
+.anime-title{
+  height: 40px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* width */
+.anime-title::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+.anime-title::-webkit-scrollbar-track {
+  /* background: #226fec; */
+  background: transparent;
+}
+
+/* Handle */
+.anime-title::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background: transparent;
+}
+
+/* Handle on hover */
+.anime-title::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}

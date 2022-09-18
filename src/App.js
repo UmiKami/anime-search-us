@@ -8,6 +8,13 @@ function App() {
     const [animeList, setAnimeList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const handleTitleEnter = (hoverEvent) => {
+      hoverEvent.target.scroll(0, 41)
+    }
+    const handleTitleOut = (hoverEvent) => {
+      hoverEvent.target.scroll(0, 0)
+    }
+
     const handleSubmit = (submitEvent) => {
         setLoading(true);
         submitEvent.preventDefault();
@@ -65,16 +72,16 @@ function App() {
                                           <>
                                               {anime.attributes.status ===
                                               "finished" ? (
-                                                  <span class="badge bg-danger position-absolute m-2">
+                                                  <span class="badge bg-danger position-absolute m-2 fs-6">
                                                       Finished
                                                   </span>
                                               ) : anime.attributes.status ===
                                                 "current" ? (
-                                                  <span class="badge bg-success position-absolute m-2">
+                                                  <span class="badge bg-success position-absolute m-2 fs-6">
                                                       Airing
                                                   </span>
                                               ) : (
-                                                  <span class="badge bg-warning position-absolute m-2">
+                                                  <span class="badge bg-warning position-absolute m-2 fs-6">
                                                       Coming Soon
                                                   </span>
                                               )}
@@ -85,7 +92,7 @@ function App() {
                                                   }
                                                   alt="anime poster"
                                               />
-                                              <p className="fs-4 bg-primary text-light mb-0">
+                                              <p className="fs-4 bg-primary text-light mb-0 anime-title" onMouseEnter={handleTitleEnter} onMouseOut={handleTitleOut}>
                                                   {Object.values(
                                                       anime.attributes.titles
                                                   )[0]
