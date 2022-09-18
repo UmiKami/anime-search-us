@@ -10,7 +10,7 @@ function App() {
     const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
 
-    const { animeTitle } = useParams();
+    const { animeTitle, pageId } = useParams();
 
     const handleSubmit = (submitEvent) => {
         submitEvent.preventDefault();
@@ -19,17 +19,26 @@ function App() {
     };
 
     useEffect(() => {
+				console.log(
+                    `https://kitsu.io/api/edge/anime?page[limit]=20${
+                        animeTitle
+                            ? "&filter[text]=" + animeTitle
+                            : pageId
+                            ? "page[offset]=" + pageId * 20
+                            : ""
+                    }`
+                );
         axios
             .get(
                 `https://kitsu.io/api/edge/anime?page[limit]=20${
-                    animeTitle ? "&filter[text]=" + animeTitle : ""
+                    animeTitle ? "&filter[text]=" + animeTitle : pageId ? "&page[offset]="+(pageId-1)*20 : ""
                 }`
             )
             .then((res) => {
                 setAnimeList(res.data.data);
             })
             .catch((error) => console.log(error));
-    }, [animeTitle]);
+    }, [animeTitle, pageId]);
 
     // console.log(animeList);
 
@@ -65,36 +74,58 @@ function App() {
                           })
                         : ""}
                 </div>
-                <nav aria-label="Page navigation example" className="d-flex justify-content-center">
+                <nav
+                    aria-label="Page navigation example"
+                    className="d-flex justify-content-center"
+                >
                     <ul className="pagination">
                         <li className="page-item">
-                            <a
+                            <Link
                                 className="page-link"
-                                href="\"
+                                to={"/page/" + (parseInt(pageId) - 1)}
                                 aria-label="Previous"
                             >
                                 <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li className="page-item active">
-                            <a className="page-link" href="\">
-                                1
-                            </a>
+                            </Link>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="\">
-                                2
-                            </a>
+                            <Link
+                                className="page-link active"
+                                to={"/page/" + (pageId ? pageId : 1)}
+                            >
+                                {pageId ? pageId : 1}
+                            </Link>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="\">
-                                3
-                            </a>
+                            <Link
+                                className="page-link"
+                                to={
+                                    "/page/" +
+                                    (pageId ? parseInt(pageId) + 1 : 2)
+                                }
+                            >
+                                {pageId ? parseInt(pageId) + 1 : 2}
+                            </Link>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="\" aria-label="Next">
+                            <Link
+                                className="page-link"
+                                to={
+                                    "/page/" +
+                                    (pageId ? parseInt(pageId) + 2 : 3)
+                                }
+                            >
+                                {pageId ? parseInt(pageId) + 2 : 3}
+                            </Link>
+                        </li>
+                        <li className="page-item">
+                            <Link
+                                className="page-link"
+                                to={"/page/" + (parseInt(pageId) + 1)}
+                                aria-label="Next"
+                            >
                                 <span aria-hidden="true">&raquo;</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
