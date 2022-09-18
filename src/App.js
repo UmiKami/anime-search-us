@@ -27,6 +27,7 @@ function App() {
         .then((res) => {
             setAnimeList(res.data.data);
             setLoading(false);
+            console.log(animeList);
         })
         .catch((error) => console.log(error));
   }, [])
@@ -55,7 +56,7 @@ function App() {
                                   src={anime.attributes.posterImage.large}
                                   alt="anime poster"
                               />
-                              <p className='fs-4 bg-primary text-light'>
+                              <p className='fs-4 bg-primary text-light mb-0'>
                                   {Object.values(anime.attributes.titles)[0]
                                       ? Object.values(
                                             anime.attributes.titles
@@ -63,6 +64,11 @@ function App() {
                                       : Object.values(
                                             anime.attributes.titles
                                         )[1]}
+                              </p>
+                              <p className='bg-secondary text-light card-description'>
+                                {
+                                  anime.attributes.description
+                                }
                               </p>
                           </>
                       ) : (

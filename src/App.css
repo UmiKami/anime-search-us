@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.card-description{
+  height: 10rem;
+  overflow-y: auto;
+}
+
+/* width */
+.card-description::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.card-description::-webkit-scrollbar-track {
+  background: #6c757d;
+}
+
+/* Handle */
+.card-description::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background: #0da9fd;
+}
+
+/* Handle on hover */
+.card-description::-webkit-scrollbar-thumb:hover {
+  background: #226fec;
+}
