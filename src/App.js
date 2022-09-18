@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 function App() {
     const navigate = useNavigate();
@@ -38,7 +38,9 @@ function App() {
     return (
         <div className="App">
             <div className="container mt-5">
-                <h1 className="mb-5 text-success">Anime Search</h1>
+                <Link to={"/"} style={{textDecoration: "none"}}>
+                  <h1 className="mb-5 text-success">Anime Search</h1>
+                </Link>
 
                 <form className="d-flex" role="search" onSubmit={handleSubmit}>
                     <input
