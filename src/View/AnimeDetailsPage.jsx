@@ -7,11 +7,11 @@ import Maintenance from "../Components/Maintenance";
 const AnimeDetailsPage = () => {
     const { animeId } = useParams();
     const [animeData, setAnimeData] = useState([]);
-    const [underMaintenance, setMaintenance] = useState(false);
+
+    const underMaintenance = process.env.REACT_APP_MAINTENANCE;
 
     useEffect(() => {
         // change when updating the page or when it is broken
-        setMaintenance(true)
         axios
             .get(`https://kitsu.io/api/edge/anime/${animeId}`)
             .then((res) => {
