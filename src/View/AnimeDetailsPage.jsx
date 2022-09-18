@@ -2,12 +2,16 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import Maintenance from "../Components/Maintenance";
 
 const AnimeDetailsPage = () => {
     const { animeId } = useParams();
     const [animeData, setAnimeData] = useState([]);
+    const [underMaintenance, setMaintenance] = useState(false);
 
     useEffect(() => {
+        // change when updating the page or when it is broken
+        setMaintenance(true)
         axios
             .get(`https://kitsu.io/api/edge/anime/${animeId}`)
             .then((res) => {
@@ -20,7 +24,7 @@ const AnimeDetailsPage = () => {
 
     return (
         <>
-            <Link to={"/"} style={{ textDecoration: "none", cursor: "pointer" }} className="text-center mt-5">
+            {!underMaintenance ? <> <Link to={"/"} style={{ textDecoration: "none", cursor: "pointer" }} className="text-center mt-5">
                 <h1 className="mb-5 text-success">Anime Search</h1>
             </Link>
             <div className="container d-flex">
@@ -66,7 +70,7 @@ const AnimeDetailsPage = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 )}
-            </div>
+            </div></> : <Maintenance/>}
         </>
     );
 };
