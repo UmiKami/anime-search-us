@@ -16,7 +16,7 @@ const AnimeDetailsPage = () => {
             .catch((error) => console.log(error));
     }, [animeId]);
 
-    console.log(animeData);
+    // console.log(animeData);
 
     return (
         <>
