@@ -1,40 +1,37 @@
 import "./App.css";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
+import { useNavigate, useParams } from "react-router-dom";
 
 function App() {
+    const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-
+    const { animeTitle } = useParams();
 
     const handleSubmit = (submitEvent) => {
-        setLoading(true);
-        submitEvent.preventDefault();
         let inputVal = submitEvent.target[0].value;
+        navigate(`/search/${inputVal}`);
+    };
 
+    useEffect(() => {
+        setLoading(true);
         axios
             .get(
-                `https://kitsu.io/api/edge/anime?page[limit]=20&filter[text]=${inputVal}`
+                `https://kitsu.io/api/edge/anime?page[limit]=20${
+                    animeTitle ? "&filter[text]=" + animeTitle : ""
+                }`
             )
             .then((res) => {
                 setAnimeList(res.data.data);
                 setLoading(false);
             })
             .catch((error) => console.log(error));
-    };
-
-    useEffect(() => {
-        axios
-            .get("https://kitsu.io/api/edge/anime?page[limit]=20")
-            .then((res) => {
-                setAnimeList(res.data.data);
-                setLoading(false);
-            })
-            .catch((error) => console.log(error));
-    }, []);
+    }, [animeTitle]);
 
     console.log(animeList);
 
@@ -59,7 +56,11 @@ function App() {
                     {animeList.length !== 0
                         ? animeList.map((anime) => {
                               return (
-                                <AnimeCard loading={loading} anime={anime}/>
+                                  <AnimeCard
+                                      loading={loading}
+                                      anime={anime}
+                                      key={uuidv4()}
+                                  />
                               );
                           })
                         : ""}

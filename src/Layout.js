@@ -10,6 +10,7 @@ const Layout = () => {
             <Route index element={<App />} />
             <Route path="/home" element={<App />} />
             <Route path="/anime/:animeId" element={<AnimeDetailsPage />} />
+            <Route path="/search/:animeTitle" element={<App />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
       </BrowserRouter>
