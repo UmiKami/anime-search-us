@@ -9,17 +9,16 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 function App() {
     const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     const { animeTitle } = useParams();
 
     const handleSubmit = (submitEvent) => {
+				submitEvent.preventDefault()
         let inputVal = submitEvent.target[0].value;
         navigate(`/search/${inputVal}`);
     };
 
     useEffect(() => {
-        setLoading(true);
         axios
             .get(
                 `https://kitsu.io/api/edge/anime?page[limit]=20${
@@ -28,7 +27,6 @@ function App() {
             )
             .then((res) => {
                 setAnimeList(res.data.data);
-                setLoading(false);
             })
             .catch((error) => console.log(error));
     }, [animeTitle]);
@@ -59,7 +57,6 @@ function App() {
                         ? animeList.map((anime) => {
                               return (
                                   <AnimeCard
-                                      loading={loading}
                                       anime={anime}
                                       key={uuidv4()}
                                   />

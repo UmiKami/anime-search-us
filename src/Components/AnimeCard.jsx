@@ -25,7 +25,7 @@ const AnimeCard = ({ anime }) => {
 
     }, [])
 
-    console.log(loading);
+    // console.log(loading);
 
     return (
         <div className="d-flex flex-column col-md-3 mb-4 position-relative">
