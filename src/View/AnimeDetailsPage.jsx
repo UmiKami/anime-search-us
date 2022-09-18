@@ -8,7 +8,8 @@ const AnimeDetailsPage = () => {
     const { animeId } = useParams();
     const [animeData, setAnimeData] = useState([]);
 
-    const underMaintenance = process.env.REACT_APP_MAINTENANCE;
+    // JSON.parse() turns string true or false into boolean 
+    const underMaintenance = JSON.parse(process.env.REACT_APP_MAINTENANCE);
 
     useEffect(() => {
         // change when updating the page or when it is broken
