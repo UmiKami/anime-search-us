@@ -1,9 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 const AnimeCard = ({ loading, anime }) => {
     const handleTitleEnter = (hoverEvent) => {
         hoverEvent.target.scroll(0, 41);
     };
+
     const handleTitleOut = (hoverEvent) => {
         hoverEvent.target.scroll(0, 0);
     };
@@ -11,36 +12,38 @@ const AnimeCard = ({ loading, anime }) => {
     return (
         <div
             className="d-flex flex-column col-md-3 mb-4 position-relative"
-            key={uuidv4()}
         >
             {!loading ? (
                 <>
                     {anime.attributes.status === "finished" ? (
-                        <span class="badge bg-danger position-absolute m-2 fs-6">
+                        <span className="badge bg-danger position-absolute m-2 fs-6">
                             Finished
                         </span>
                     ) : anime.attributes.status === "current" ? (
-                        <span class="badge bg-success position-absolute m-2 fs-6">
+                        <span className="badge bg-success position-absolute m-2 fs-6">
                             Airing
                         </span>
                     ) : (
-                        <span class="badge bg-warning position-absolute m-2 fs-6">
+                        <span className="badge bg-warning position-absolute m-2 fs-6">
                             Coming Soon
                         </span>
                     )}
-                    <img
-                        src={anime.attributes.posterImage.large}
-                        alt="anime poster"
-                    />
-                    <p
-                        className="fs-4 bg-primary text-light mb-0 anime-title"
-                        onMouseEnter={handleTitleEnter}
-                        onMouseOut={handleTitleOut}
-                    >
-                        {Object.values(anime.attributes.titles)[0]
-                            ? Object.values(anime.attributes.titles)[0]
-                            : Object.values(anime.attributes.titles)[1]}
-                    </p>
+                    <Link to={`/anime/${anime.id}`} style={{ textDecoration: "none" }}>
+                        <img
+                            src={anime.attributes.posterImage.large}
+                            alt="anime poster"
+                            className="col-12"
+                        />
+                        <p
+                            className="fs-4 bg-primary text-light mb-0 anime-title"
+                            onMouseEnter={handleTitleEnter}
+                            onMouseOut={handleTitleOut}
+                        >
+                            {Object.values(anime.attributes.titles)[0]
+                                ? Object.values(anime.attributes.titles)[0]
+                                : Object.values(anime.attributes.titles)[1]}
+                        </p>
+                    </Link>
                     <p className="bg-secondary text-light card-description">
                         {anime.attributes.description}
                     </p>
