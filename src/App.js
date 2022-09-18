@@ -33,7 +33,7 @@ function App() {
             .catch((error) => console.log(error));
     }, [animeTitle]);
 
-    console.log(animeList);
+    // console.log(animeList);
 
     return (
         <div className="App">
