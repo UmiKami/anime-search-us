@@ -54,12 +54,14 @@ const AnimeCard = ({ anime }) => {
                                 alt="anime poster"
                                 className="col-12"
                                 onError={handleImgError}
+                                style={{ borderRadius: "15px 15px 0px 0px" }}
                             />
                         ) : (
                             <img
                                 src={require("../img/posterPlaceholder.webp")}
                                 className="col-12"
                                 alt="placeholder for anime poster"
+                                style={{ borderRadius: "15px 15px 0px 0px" }}
                             />
                         )}
                         <p
@@ -72,7 +74,9 @@ const AnimeCard = ({ anime }) => {
                                 : Object.values(anime.attributes.titles)[1]}
                         </p>
                     </Link>
-                    <p className="bg-secondary text-light card-description">
+                    <p
+                        className="bg-secondary text-light card-description"
+                    >
                         {anime.attributes.description}
                     </p>
                 </>
