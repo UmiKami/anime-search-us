@@ -79,10 +79,10 @@ function App() {
                     className="d-flex justify-content-center"
                 >
                     <ul className="pagination">
-                        <li className="page-item">
+                        <li className={"page-item " + (parseInt(pageId) === 1 && "disabled")}>
                             <Link
                                 className="page-link"
-                                to={"/page/" + (parseInt(pageId) - 1)}
+                                to={"/page/" + (pageId > 1 ? parseInt(pageId) - 1 : 1)}
                                 aria-label="Previous"
                             >
                                 <span aria-hidden="true">&laquo;</span>
@@ -121,7 +121,7 @@ function App() {
                         <li className="page-item">
                             <Link
                                 className="page-link"
-                                to={"/page/" + (parseInt(pageId) + 1)}
+                                to={"/page/" + (pageId ? parseInt(pageId) + 1 : 2)}
                                 aria-label="Next"
                             >
                                 <span aria-hidden="true">&raquo;</span>
