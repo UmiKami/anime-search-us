@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import AnimeDetailsPage from "./View/AnimeDetailsPage";
-import NoPage from "./Components/NoPage";
+import NoPage from "./View/NoPage";
 
 const Layout = () => {
   return (
