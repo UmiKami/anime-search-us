@@ -1,0 +1,57 @@
+.mainContainer {
+    background-color: #502DB1;
+    min-height: 100vh;
+    font-family: 'Roboto';
+}
+
+.custom-container {
+    /* modifies default margin for bs5 container */
+    padding: 0 10rem;
+}
+
+.anime-description {
+    color: white;
+}
+
+.anime-description-header {
+    font-weight: 500;
+    color: #5ED500;
+}
+
+.anime-description-p {
+    font-weight: 300;
+    line-height: 1.75;
+}
+
+.poster {
+    border: 1px solid #00F0FF;
+}
+
+.summary-details {
+    background: linear-gradient(113.57deg, rgba(17, 123, 200, 0.87) 0%, rgba(17, 145, 200, 0.56) 100%);
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #00F0FF;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.row-custom{
+    margin: 0px 0px;
+}
+
+@media screen and (min-width: 1921px) {
+    .anime-description-header{
+        font-size: 3rem;
+    }
+    .anime-description-p{
+        font-size: 1.6rem !important;
+    }
+}
+@media screen and (max-width: 1920px) {
+    .custom-container{
+        padding: 0;
+    }
+    .anime-description{
+        margin-left: 0 !important;
+    }
+}
