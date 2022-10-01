@@ -1,8 +1,7 @@
 import axios from "axios";
 import "../styles/AnimeDetails.css";
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import useWindowDimensions from "../Hooks/WindowDimensions";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
 const AnimeDetailsPage = () => {
