@@ -20,15 +20,6 @@ function App() {
     };
 
     useEffect(() => {
-        console.log(
-            `https://kitsu.io/api/edge/anime?page[limit]=20${
-                animeTitle
-                    ? "&filter[text]=" + animeTitle
-                    : pageId
-                    ? "page[offset]=" + pageId * 20
-                    : ""
-            }`
-        );
         axios
             .get(
                 `https://kitsu.io/api/edge/anime?page[limit]=20${
