@@ -62,7 +62,7 @@ const AnimeDetailsPage = () => {
                     <div className="row gx-lg-5">
                         <div
                             className="card col-2 px-0 summary-details"
-                            style={{ width: "24rem", height: "min-content" }}
+                            style={{ width: "22rem", height: "min-content" }}
                         >
                             <img
                                 src={
