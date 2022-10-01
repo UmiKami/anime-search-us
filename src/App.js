@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import Navbar from "./Components/Navbar";
 
 function App() {
     const navigate = useNavigate();
@@ -19,19 +20,23 @@ function App() {
     };
 
     useEffect(() => {
-				console.log(
-                    `https://kitsu.io/api/edge/anime?page[limit]=20${
-                        animeTitle
-                            ? "&filter[text]=" + animeTitle
-                            : pageId
-                            ? "page[offset]=" + pageId * 20
-                            : ""
-                    }`
-                );
+        console.log(
+            `https://kitsu.io/api/edge/anime?page[limit]=20${
+                animeTitle
+                    ? "&filter[text]=" + animeTitle
+                    : pageId
+                    ? "page[offset]=" + pageId * 20
+                    : ""
+            }`
+        );
         axios
             .get(
                 `https://kitsu.io/api/edge/anime?page[limit]=20${
-                    animeTitle ? "&filter[text]=" + animeTitle : pageId ? "&page[offset]="+(pageId-1)*20 : ""
+                    animeTitle
+                        ? "&filter[text]=" + animeTitle
+                        : pageId
+                        ? "&page[offset]=" + (pageId - 1) * 20
+                        : ""
                 }`
             )
             .then((res) => {
@@ -45,16 +50,7 @@ function App() {
     return (
         <div className="App">
             <div className="container mt-5">
-                <h1 className="mb-5">
-                    <Link
-                        to={"/"}
-                        style={{ textDecoration: "none", width: "contain" }}
-                        className="text-success"
-                    >
-                        Anime Search
-                    </Link>
-                </h1>
-
+                <Navbar />
                 <form className="d-flex" role="search" onSubmit={handleSubmit}>
                     <input
                         className="form-control me-2"
@@ -79,10 +75,18 @@ function App() {
                     className="d-flex justify-content-center"
                 >
                     <ul className="pagination">
-                        <li className={"page-item " + (parseInt(pageId) === 1 && "disabled")}>
+                        <li
+                            className={
+                                "page-item " +
+                                (parseInt(pageId) === 1 && "disabled")
+                            }
+                        >
                             <Link
                                 className="page-link"
-                                to={"/page/" + (pageId > 1 ? parseInt(pageId) - 1 : 1)}
+                                to={
+                                    "/page/" +
+                                    (pageId > 1 ? parseInt(pageId) - 1 : 1)
+                                }
                                 aria-label="Previous"
                             >
                                 <span aria-hidden="true">&laquo;</span>
@@ -121,7 +125,10 @@ function App() {
                         <li className="page-item">
                             <Link
                                 className="page-link"
-                                to={"/page/" + (pageId ? parseInt(pageId) + 1 : 2)}
+                                to={
+                                    "/page/" +
+                                    (pageId ? parseInt(pageId) + 1 : 2)
+                                }
                                 aria-label="Next"
                             >
                                 <span aria-hidden="true">&raquo;</span>
