@@ -1,0 +1,22 @@
+.navhead-color {
+    color: #02CA52;
+    position: relative;
+}
+
+.navhead-color:hover {
+    color: #39b96c;
+}
+
+.navhead-color::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    top: 100%;
+    background: rgb(162, 255, 0);
+    transition: width .25s ease-in-out;
+}
+
+.navhead-color:hover:before {
+    width: 100%;
+}
