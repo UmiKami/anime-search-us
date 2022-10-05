@@ -7,7 +7,7 @@ const NoPage = () => {
               <h1 className="display-3">THIS PAGE DOES NOT EXIST</h1>
           </div>
           <Link className="display-3" to={"/"}>
-              Go to home <i class="fa-solid fa-rotate-left display-5"></i>
+              Go to home <i className="fa-solid fa-rotate-left display-5"></i>
           </Link>
       </div>
   );

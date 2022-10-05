@@ -8,128 +8,142 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 
 function App() {
-    const navigate = useNavigate();
-    const [animeList, setAnimeList] = useState([]);
+  const navigate = useNavigate();
+  const [animeList, setAnimeList] = useState([]);
+  const [prevPage, setPrevPage] = useState();
 
-    const { animeTitle, pageId } = useParams();
+  const { animeTitle, pageId } = useParams();
 
-    const handleSubmit = (submitEvent) => {
-        submitEvent.preventDefault();
-        let inputVal = submitEvent.target[0].value;
-        navigate(`/search/${inputVal}`);
-    };
+  const handleChange = (input) => {
+    let inputVal = input.target.value;
 
-    useEffect(() => {
-        axios
-            .get(
-                `https://kitsu.io/api/edge/anime?page[limit]=20${
-                    animeTitle
-                        ? "&filter[text]=" + animeTitle
-                        : pageId
-                        ? "&page[offset]=" + (pageId - 1) * 20
-                        : ""
-                }`
-            )
-            .then((res) => {
-                setAnimeList(res.data.data);
+    if (inputVal.match(/[a-zA-Z0-9]/)) {
+      // if when typing input, we are in a page, store the page number to be used later
+      if (pageId) {
+        setPrevPage(pageId)
+      }
+
+      navigate(`/search/${inputVal}`);
+    }
+    else {
+      // if we store a page number, navigate to the page when the inputVal is empty, else navigate to the home page
+      prevPage ? navigate(`/page/${prevPage}`) : navigate("/")
+    }
+  }
+
+  useEffect(() => {
+    console.log("Anime Title: ", animeTitle);
+
+    let url = `https://kitsu.io/api/edge/anime?page[limit]=20${animeTitle
+      ? "&filter[text]=" + animeTitle
+      : pageId
+        ? "&page[offset]=" + (pageId - 1) * 20
+        : ""
+    }`
+
+    console.log(url);
+    const getAnimeList = async () => {
+      const resp = await axios.get(url)
+      setAnimeList(resp.data.data)
+      console.log("Url for axios: ", url);
+      console.log("Last update: ", resp.data.data);
+    }
+
+    getAnimeList()
+
+    console.log(animeList);
+  }, [animeTitle, pageId]);
+
+  return (
+    <div className="App">
+      <div className="container mt-5">
+        <Navbar />
+        <form className="d-flex" role="search">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            onChange={handleChange}
+          />
+        </form>
+
+        <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
+          {animeList.length !== 0
+            ? animeList.map((anime) => {
+              return <AnimeCard anime={anime} key={uuidv4()} />;
             })
-            .catch((error) => console.log(error));
-    }, [animeTitle, pageId]);
-
-    // console.log(animeList);
-
-    return (
-        <div className="App">
-            <div className="container mt-5">
-                <Navbar />
-                <form className="d-flex" role="search" onSubmit={handleSubmit}>
-                    <input
-                        className="form-control me-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                    <button className="btn btn-outline-success" type="submit">
-                        Search
-                    </button>
-                </form>
-
-                <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
-                    {animeList.length !== 0
-                        ? animeList.map((anime) => {
-                              return <AnimeCard anime={anime} key={uuidv4()} />;
-                          })
-                        : ""}
-                </div>
-                <nav
-                    aria-label="Page navigation example"
-                    className="d-flex justify-content-center"
-                >
-                    <ul className="pagination">
-                        <li
-                            className={
-                                "page-item " +
-                                (parseInt(pageId) === 1 && "disabled")
-                            }
-                        >
-                            <Link
-                                className="page-link"
-                                to={
-                                    "/page/" +
-                                    (pageId > 1 ? parseInt(pageId) - 1 : 1)
-                                }
-                                aria-label="Previous"
-                            >
-                                <span aria-hidden="true">&laquo;</span>
-                            </Link>
-                        </li>
-                        <li className="page-item">
-                            <Link
-                                className="page-link active"
-                                to={"/page/" + (pageId ? pageId : 1)}
-                            >
-                                {pageId ? pageId : 1}
-                            </Link>
-                        </li>
-                        <li className="page-item">
-                            <Link
-                                className="page-link"
-                                to={
-                                    "/page/" +
-                                    (pageId ? parseInt(pageId) + 1 : 2)
-                                }
-                            >
-                                {pageId ? parseInt(pageId) + 1 : 2}
-                            </Link>
-                        </li>
-                        <li className="page-item">
-                            <Link
-                                className="page-link"
-                                to={
-                                    "/page/" +
-                                    (pageId ? parseInt(pageId) + 2 : 3)
-                                }
-                            >
-                                {pageId ? parseInt(pageId) + 2 : 3}
-                            </Link>
-                        </li>
-                        <li className="page-item">
-                            <Link
-                                className="page-link"
-                                to={
-                                    "/page/" +
-                                    (pageId ? parseInt(pageId) + 1 : 2)
-                                }
-                                aria-label="Next"
-                            >
-                                <span aria-hidden="true">&raquo;</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            : ""}
         </div>
-    );
+        <nav
+          aria-label="Page navigation example"
+          className="d-flex justify-content-center"
+        >
+          <ul className="pagination">
+            <li
+              className={
+                "page-item " +
+                (parseInt(pageId) === 1 && "disabled")
+              }
+            >
+              <Link
+                className="page-link"
+                to={
+                  "/page/" +
+                  (pageId > 1 ? parseInt(pageId) - 1 : 1)
+                }
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                className="page-link active"
+                to={"/page/" + (pageId ? pageId : 1)}
+              >
+                {pageId ? pageId : 1}
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                className="page-link"
+                to={
+                  "/page/" +
+                  (pageId ? parseInt(pageId) + 1 : 2)
+                }
+              >
+                {pageId ? parseInt(pageId) + 1 : 2}
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                className="page-link"
+                to={
+                  "/page/" +
+                  (pageId ? parseInt(pageId) + 2 : 3)
+                }
+              >
+                {pageId ? parseInt(pageId) + 2 : 3}
+              </Link>
+            </li>
+            <li className="page-item">
+              <Link
+                className="page-link"
+                to={
+                  "/page/" +
+                  (pageId ? parseInt(pageId) + 1 : 2)
+                }
+                aria-label="Next"
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
 }
 
 export default App;
