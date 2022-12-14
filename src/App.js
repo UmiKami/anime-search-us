@@ -30,29 +30,41 @@ function App() {
       prevPage ? navigate(`/page/${prevPage}`) : navigate("/")
     }
   }
-
-  useEffect(() => {
-    console.log("Anime Title: ", animeTitle);
-
-    let url = `https://kitsu.io/api/edge/anime?page[limit]=20${animeTitle
+  
+  let url = `https://kitsu.io/api/edge/anime?page[limit]=20${animeTitle
       ? "&filter[text]=" + animeTitle
       : pageId
         ? "&page[offset]=" + (pageId - 1) * 20
         : ""
-    }`
+      }`
 
-    console.log(url);
-    const getAnimeList = async () => {
-      const resp = await axios.get(url)
-      setAnimeList(resp.data.data)
-      console.log("Url for axios: ", url);
-      console.log("Last update: ", resp.data.data);
+  let cancelToken;
+  const getAnimeList = async(url) => {
+    if (typeof cancelToken != typeof undefined) {
+      cancelToken.cancel("Operation canceled due to new request.")
     }
 
-    getAnimeList()
+    cancelToken = axios.CancelToken.source()
 
-    console.log(animeList);
-  }, [animeTitle, pageId]);
+    try{
+      const resp = await axios.get(url, { cancelToken: cancelToken.token })
+      setAnimeList(resp.data.data)
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+
+    getAnimeList(url)
+
+    if(!animeTitle){
+      console.log("Executed with url - ", url);
+      getAnimeList(url)
+    }
+    console.log("Current url: ", url);
+    console.log("Current list:", animeList);
+  }, [animeTitle, pageId, prevPage, url]);
 
   return (
     <div className="App">
