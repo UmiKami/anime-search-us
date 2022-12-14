@@ -6,6 +6,7 @@ import Navbar from "../Components/Navbar";
 
 const AnimeDetailsPage = () => {
     // gets the param from the URL if any
+
     const { animeId } = useParams();
     // allows us to redirect
     const navigate = useNavigate();
@@ -51,6 +52,8 @@ const AnimeDetailsPage = () => {
             })
             .catch((error) => console.log("Error:", error));
     }, [animeId]);
+
+    document.title = animeData.attributes && "Anime Search | " + Object.values(animeData.attributes.titles)[0]
 
     return (
         <main className="mainContainer">

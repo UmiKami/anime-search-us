@@ -8,6 +8,9 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 
 function App() {
+    // reset title value to original state when at home page
+    document.title = "Anime Search | By Umikami";
+
     const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
 
