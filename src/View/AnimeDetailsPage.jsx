@@ -179,9 +179,9 @@ const AnimeDetailsPage = () => {
                                       animeData.attributes.description
                                     : "(No description available!)"}
                             </p>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <CountButton type="fav" favoritesCount={ animeData.attributes &&  animeData.attributes.favoritesCount} liked={false}/>
-                                <CountButton type="episode" episodeCount={animeData.attributes &&  animeData.attributes.episodeCount}/>
+                            <div className="d-flex justify-content-between align-items-center py-4">
+                                <CountButton type="fav" favoritesCount={ animeData.attributes &&  animeData.attributes.favoritesCount ? animeData.attributes.favoritesCount : <span class="fa-solid fa-ban"></span>} liked={false}/>
+                                <CountButton type="episode" episodeCount={animeData.attributes && animeData.attributes.episodeCount ?  animeData.attributes.episodeCount : <span class="fa-solid fa-ban"></span>}/>
                             </div>
                         </div>
                     </div>
