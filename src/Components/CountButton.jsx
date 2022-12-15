@@ -1,0 +1,19 @@
+import React, {useState} from 'react'
+import "../styles/CountButton.css"
+
+const CountButton = ({ favoritesCount, episodeCount, type, liked }) => {
+    const [hasLiked, setHasLiked] = useState(liked)
+
+    let rightContainerStyle = type==="fav" ? `btn-fav-logo ${hasLiked && "btn-fav-logo-active"}` : "btn-episode-count"
+
+    return (
+        <main className='count-btn-container d-flex'>
+            <p className="mb-0 align-self-center me-auto ms-auto">{type==="fav" ? favoritesCount : "Episodes"}</p>
+            <div className={rightContainerStyle} onClick={()=>setHasLiked(state=>!state)}>
+                {type==="fav" ? <span class="fa-solid fa-heart"></span> : episodeCount}
+            </div>
+        </main>
+    )
+}
+
+export default CountButton
