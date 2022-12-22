@@ -3,6 +3,7 @@ import "../styles/AnimeDetails.css";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import CountButton from "../Components/CountButton";
 
 const AnimeDetailsPage = () => {
     // gets the param from the URL if any
@@ -178,6 +179,10 @@ const AnimeDetailsPage = () => {
                                       animeData.attributes.description
                                     : "(No description available!)"}
                             </p>
+                            <div className="d-flex justify-content-between align-items-center py-4">
+                                <CountButton type="fav" favoritesCount={ animeData.attributes &&  animeData.attributes.favoritesCount ? animeData.attributes.favoritesCount : <span class="fa-solid fa-ban"></span>} liked={false}/>
+                                <CountButton type="episode" episodeCount={animeData.attributes && animeData.attributes.episodeCount ?  animeData.attributes.episodeCount : <span class="fa-solid fa-ban"></span>}/>
+                            </div>
                         </div>
                     </div>
                 </div>
