@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 
-const FilterBar = () => {
+const FilterBar = ({applyFilters}) => {
     const [genre, setGenre] = useState("")
     const [year, setYear] = useState(null);
-    const [type, setType] = useState(null);
-
+    const [type, setType] = useState("");
 
     const genreOptions = [
         "Comedy",
@@ -55,9 +54,6 @@ const FilterBar = () => {
 
     const mediaTypes = ["TV", "Movie", "ONA", "OVA"]
 
-    const handleChange = () => {
-    }
-
     return (
         <main className="mt-3 d-flex align-items-center justify-content-center">
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -93,7 +89,7 @@ const FilterBar = () => {
                         <TextField
                             {...params}
                             helperText={null}
-                            sx={{ maxWidth: 120}}
+                            sx={{ maxWidth: 120 }}
                         />
                     )}
                 />
@@ -117,6 +113,10 @@ const FilterBar = () => {
                     ))}
                 </Select>
             </FormControl>
+
+            <Button onClick={()=>applyFilters(genre, moment(year).year(), type)} variant="text" color="primary" sx={{height: 55, width: 120}}>
+                Apply Filter
+            </Button>
         </main>
     );
 };

@@ -7,6 +7,7 @@ import AnimeCard from "./Components/AnimeCard";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import FilterBar from "./Components/FilterBar";
+import NothingFound from "./Components/NothingFound";
 
 function App() {
     // reset title value to original state when at home page
@@ -23,8 +24,15 @@ function App() {
         navigate(`/search/${inputVal}`);
     };
 
-    const filterAnime = (genre, fromYear, animeType) => {
-         
+    const filterAnime = (genre, year, animeType) => {
+         axios
+            .get(
+                `https://kitsu.io/api/edge/anime?page[limit]=20${genre && `&filter[categories]=${genre}`}${year ? `&filter[seasonYear]=${year}` : ""}${animeType && `&filter[subtype]=${animeType}`}`
+            )
+            .then((res) => {
+                setAnimeList(res.data.data);
+            })
+            .catch((error) => console.log(error));
     }
 
     useEffect(() => {
@@ -62,16 +70,16 @@ function App() {
                     </button>
                 </form>
 
-                <FilterBar/>
+                <FilterBar applyFilters={filterAnime}/>
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
                     {animeList.length !== 0
                         ? animeList.map((anime) => {
                               return <AnimeCard anime={anime} key={uuidv4()} />;
                           })
-                        : ""}
+                        : <NothingFound/>}
                 </div>
-                <nav
+                {animeList.length ? <nav
                     aria-label="Page navigation example"
                     className="d-flex justify-content-center"
                 >
@@ -136,7 +144,7 @@ function App() {
                             </Link>
                         </li>
                     </ul>
-                </nav>
+                </nav> : <br/>}
             </div>
         </div>
     );
