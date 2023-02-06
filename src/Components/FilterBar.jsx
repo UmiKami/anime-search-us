@@ -7,6 +7,7 @@ import moment from "moment";
 const FilterBar = () => {
     const [genre, setGenre] = useState("")
     const [year, setYear] = useState(null);
+    const [type, setType] = useState(null);
 
 
     const genreOptions = [
@@ -52,6 +53,8 @@ const FilterBar = () => {
         "Plot Continuity",
     ];
 
+    const mediaTypes = ["TV", "Movie", "ONA", "OVA"]
+
     const handleChange = () => {
     }
 
@@ -80,17 +83,40 @@ const FilterBar = () => {
                 <DatePicker
                     views={["year"]}
                     minDate={moment("1923")}
-                    maxDate={moment((new Date().getFullYear()+5).toString())}
+                    maxDate={moment((new Date().getFullYear() + 5).toString())}
                     label="Year"
                     value={year}
                     onChange={(newValue) => {
                         setYear(newValue);
                     }}
                     renderInput={(params) => (
-                        <TextField {...params} helperText={null} />
+                        <TextField
+                            {...params}
+                            helperText={null}
+                            sx={{ maxWidth: 120}}
+                        />
                     )}
                 />
             </LocalizationProvider>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={type}
+                    label="type"
+                    onChange={(e) => setType(e.target.value)}
+                >
+                    <MenuItem defaultValue="" value="">
+                        <em>None</em>
+                    </MenuItem>
+                    {mediaTypes.map((type, index) => (
+                        <MenuItem key={index} value={type}>
+                            {type}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
         </main>
     );
 };
