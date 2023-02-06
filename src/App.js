@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "./Components/Navbar";
+import FilterBar from "./Components/FilterBar";
 
 function App() {
     // reset title value to original state when at home page
@@ -21,6 +22,10 @@ function App() {
         let inputVal = submitEvent.target[0].value;
         navigate(`/search/${inputVal}`);
     };
+
+    const filterAnime = (genre, fromYear, animeType) => {
+         
+    }
 
     useEffect(() => {
         axios
@@ -56,6 +61,8 @@ function App() {
                         Search
                     </button>
                 </form>
+
+                <FilterBar/>
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
                     {animeList.length !== 0
