@@ -10,7 +10,7 @@ const CountButton = ({ favoritesCount, episodeCount, type, liked }) => {
         <main className='count-btn-container d-flex'>
             <p className="mb-0 align-self-center me-auto ms-auto">{type==="fav" ? favoritesCount : "Episodes"}</p>
             <div className={rightContainerStyle} onClick={()=>setHasLiked(state=>!state)}>
-                {type==="fav" ? <span class={`fa-solid fa-heart ${hasLiked && "btn-fav-logo-active"}`}></span> : episodeCount}
+                {type==="fav" ? <span className={`fa-solid fa-heart ${hasLiked && "btn-fav-logo-active"}`}></span> : episodeCount}
             </div>
         </main>
     )
