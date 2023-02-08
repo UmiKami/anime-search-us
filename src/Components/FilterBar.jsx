@@ -54,6 +54,13 @@ const FilterBar = ({applyFilters}) => {
 
     const mediaTypes = ["TV", "Movie", "ONA", "OVA"]
 
+    const clearFilters = () => {
+        applyFilters("", "", "");
+        setGenre("")
+        setYear(null)
+        setType("")
+    }
+
     return (
         <main className="mt-3 d-flex align-items-center justify-content-center">
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -116,6 +123,9 @@ const FilterBar = ({applyFilters}) => {
 
             <Button onClick={()=>applyFilters(genre, moment(year).year(), type)} variant="text" color="primary" sx={{height: 55, width: 120}}>
                 Apply Filter
+            </Button>
+            <Button onClick={()=>clearFilters()} variant="outlined" color="error" sx={{height: 55, width: 120}}>
+                Clear
             </Button>
         </main>
     );

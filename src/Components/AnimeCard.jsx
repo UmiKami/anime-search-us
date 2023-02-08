@@ -9,22 +9,22 @@ const AnimeCard = ({ anime }) => {
         console.log(error);
         setImgError(true)
     }
-
+    
     const handleTitleEnter = (hoverEvent) => {
         hoverEvent.target.scroll(0, 41);
     };
-
+    
     const handleTitleOut = (hoverEvent) => {
         hoverEvent.target.scroll(0, 0);
     };
-
+    
     useEffect(()=>{
         setTimeout(()=>{
             setLoading(false)
         }, 800)
-
+        
     }, [])
-
+    
     // console.log(loading);
 
     return (
