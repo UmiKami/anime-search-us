@@ -14,7 +14,7 @@ const NothingFound = () => {
       <div>
           <h1>No anime found 😔</h1>
           <h4>But hey!! Look at this awesome meme!</h4>
-          {animeMeme && <img src={animeMeme.preview[animeMeme.preview.length - 1]} alt={animeMeme.title} />}
+          {animeMeme && <img src={animeMeme.preview[animeMeme.preview.length - 1]} alt={animeMeme.title} className="img-fluid col-sm-7 col-md-6 col-12" />}
       </div>
   );
 }
