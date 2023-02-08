@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from "@mui/material";
+import {
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    TextField,
+    Button,
+} from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 
-const FilterBar = ({applyFilters}) => {
-    const [genre, setGenre] = useState("")
+const FilterBar = ({ applyFilters }) => {
+    const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
 
@@ -52,18 +59,21 @@ const FilterBar = ({applyFilters}) => {
         "Plot Continuity",
     ];
 
-    const mediaTypes = ["TV", "Movie", "ONA", "OVA"]
+    const mediaTypes = ["TV", "Movie", "ONA", "OVA"];
 
     const clearFilters = () => {
         applyFilters("", "", "");
-        setGenre("")
-        setYear(null)
-        setType("")
-    }
+        setGenre("");
+        setYear(null);
+        setType("");
+    };
 
     return (
-        <main className="mt-3 d-flex align-items-center justify-content-center">
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <main className="mt-3 d-flex align-items-center justify-content-center flex-column flex-sm-row">
+            <FormControl
+                sx={{ m: 1, minWidth: 120 }}
+                className="col-12 col-sm-1"
+            >
                 <InputLabel id="demo-simple-select-label">Genre</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -96,12 +106,16 @@ const FilterBar = ({applyFilters}) => {
                         <TextField
                             {...params}
                             helperText={null}
-                            sx={{ maxWidth: 120 }}
+                            // sx={{ minWidth: 120 }}
+                            className="col-12 col-sm-3 col-md-2 col-lg-2"
                         />
                     )}
                 />
             </LocalizationProvider>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl
+                sx={{ m: 1, minWidth: 120 }}
+                className="col-12 col-sm-1"
+            >
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -120,13 +134,28 @@ const FilterBar = ({applyFilters}) => {
                     ))}
                 </Select>
             </FormControl>
-
-            <Button onClick={()=>applyFilters(genre, moment(year).year(), type)} variant="text" color="primary" sx={{height: 55, width: 120}}>
-                Apply Filter
-            </Button>
-            <Button onClick={()=>clearFilters()} variant="outlined" color="error" sx={{height: 55, width: 120}}>
-                Clear
-            </Button>
+            <FormControl className="col-12 col-sm-3 d-flex gap-2 flex-sm-row flex-column">
+                <Button
+                    onClick={() =>
+                        applyFilters(genre, moment(year).year(), type)
+                    }
+                    variant="outlined"
+                    color="primary"
+                    className="col-sm-6"
+                    sx={{ height: 55 }}
+                >
+                    Apply Filter
+                </Button>
+                <Button
+                    onClick={() => clearFilters()}
+                    variant="outlined"
+                    color="error"
+                    sx={{ height: 55 }}
+                    className="col-sm-6"
+                >
+                    Clear
+                </Button>
+            </FormControl>
         </main>
     );
 };
