@@ -1,28 +1,38 @@
 import "./styles/App.css";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import FilterBar from "./Components/FilterBar";
 import NothingFound from "./Components/NothingFound";
-import PaginationBar from "./Components/PaginationBar";
+import useAnimeLoad from "./Hooks/useAnimeLoad";
+document.title = "Anime Search | By Umikami";
+
 
 function App() {
     // reset title value to original state when at home page
-    document.title = "Anime Search | By Umikami";
 
     const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
+    const [offset, setOffset] = useState(0)
 
-    const { animeTitle, pageId } = useParams();
+    
+    const { animeTitle } = useParams();
+    console.log(animeTitle);
+    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset);
 
-    const handleSubmit = (submitEvent) => {
-        submitEvent.preventDefault();
-        let inputVal = submitEvent.target[0].value;
-        navigate(`/search/${inputVal}`);
+    const handleSubmit = (e) => {
+        let inputVal = e.target.value;
+
+        if(inputVal.length){
+            navigate(`/search/${inputVal}`);
+
+        }else{
+            navigate("/")
+        }
     };
 
     const filterAnime = (genre, year, animeType) => {
@@ -36,31 +46,38 @@ function App() {
             .catch((error) => console.log(error));
     }
 
-    useEffect(() => {
-        axios
-            .get(
-                `https://kitsu.io/api/edge/anime?page[limit]=20${
-                    animeTitle
-                        ? "&filter[text]=" + animeTitle
-                        : pageId
-                        ? "&page[offset]=" + (pageId - 1) * 20
-                        : ""
-                }`
-            )
-            .then((res) => {
-                setAnimeList(res.data.data);
-            })
-            .catch((error) => console.log(error));
-    }, [animeTitle, pageId]);
 
     // console.log(animeList);
+    const observer = useRef()
+
+    const lastAnimePost = useCallback(node=>{
+        if(loading)return
+        if(observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting){
+                console.log(entries[0])
+                console.log(
+                    "%cVisible",
+                    "color: green; background: yellow; font-size: 30px"
+                );
+                if (offset <= count){
+                    setOffset(prevOffset => prevOffset + 20)
+                }
+            }
+        }, {threshold: 1})
+
+        if(node) observer.current.observe(node)
+    }, [loading])
+    console.log("from home: ",loading);
 
     return (
         <div className="App">
             <div className="container mt-5">
                 <Navbar />
-                <form className="d-flex" role="search" onSubmit={handleSubmit}>
+                <form className="d-flex" role="search" >
                     <input
+                        onChange={handleSubmit}
+                        value={animeTitle}
                         className="form-control me-2"
                         type="search"
                         placeholder="Search"
@@ -74,13 +91,22 @@ function App() {
                 <FilterBar applyFilters={filterAnime}/>
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
-                    {animeList.length !== 0
-                        ? animeList.map((anime) => {
-                              return <AnimeCard anime={anime} key={uuidv4()} />;
+                    {animeList.length 
+                        ? animeList.map((anime, index) => {
+                                if(animeList.length === index + 1){
+                                    return <AnimeCard forwardRef={lastAnimePost} anime={anime} key={uuidv4()}  />;
+                                }else{
+                                    return (
+                                        <AnimeCard
+                                            anime={anime}
+                                            key={uuidv4()}
+                                            
+                                        />
+                                    );
+                                }
                           })
                         : <NothingFound/>}
                 </div>
-                <PaginationBar animeList={animeList} pageId={pageId}/>
             </div>
         </div>
     );
