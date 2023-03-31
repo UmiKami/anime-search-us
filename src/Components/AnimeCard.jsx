@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const AnimeCard = ({ anime }) => {
-    const [loading, setLoading] = useState(true);
+const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=>{
+        let timer = setTimeout(()=>{
+            setLoading(false)
+
+        }, 800)
+
+        return () => clearTimeout(timer)
+    },[])
     
     const handleImgError = (error) => {
         console.log(error);
@@ -18,20 +27,13 @@ const AnimeCard = ({ anime }) => {
         hoverEvent.target.scroll(0, 0);
     };
     
-    useEffect(()=>{
-        setTimeout(()=>{
-            setLoading(false)
-        }, 800)
-        
-    }, [])
     
-    // console.log(loading);
-
+    console.log(loading);
     return (
-        <div className="d-flex flex-column col-md-3 mb-4 position-relative">
-            {!loading ? (
+        <div className="d-flex flex-column col-md-3 mb-4 position-relative" ref={forwardRef}>
+            { (
                 <>
-                    {anime.attributes.status === "finished" ? (
+                    { anime.attributes.status === "finished" ? (
                         <span className="badge bg-danger position-absolute m-2 fs-6">
                             Finished
                         </span>
@@ -80,19 +82,7 @@ const AnimeCard = ({ anime }) => {
                         {anime.attributes.description}
                     </p>
                 </>
-            ) : (
-                <div className="d-flex justify-content-center">
-                    <div
-                        className="spinner-border"
-                        role="status"
-                        style={{
-                            color: "darkorange",
-                        }}
-                    >
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            )}
+            ) }
         </div>
     );
 };

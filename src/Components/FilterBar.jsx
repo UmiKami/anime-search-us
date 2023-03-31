@@ -11,7 +11,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 
-const FilterBar = ({ applyFilters }) => {
+const FilterBar = ({ applyFilters, setOffset }) => {
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
@@ -62,10 +62,11 @@ const FilterBar = ({ applyFilters }) => {
     const mediaTypes = ["TV", "Movie", "ONA", "OVA"];
 
     const clearFilters = () => {
-        applyFilters("", "", "");
         setGenre("");
         setYear(null);
         setType("");
+        setOffset(0);
+        applyFilters("", null, "");
     };
 
     return (
