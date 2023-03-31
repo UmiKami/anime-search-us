@@ -19,10 +19,15 @@ function App() {
     const [animeList, setAnimeList] = useState([]);
     const [offset, setOffset] = useState(0)
 
+    // genre
+    const [genre, setGenre] = useState("");
+    const [year, setYear] = useState(null);
+    const [type, setType] = useState("");
+
     
     const { animeTitle } = useParams();
     console.log(animeTitle);
-    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset);
+    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type);
 
     const handleSubmit = (e) => {
         let inputVal = e.target.value;
@@ -36,14 +41,9 @@ function App() {
     };
 
     const filterAnime = (genre, year, animeType) => {
-         axios
-            .get(
-                `https://kitsu.io/api/edge/anime?page[limit]=20${genre && `&filter[categories]=${genre}`}${year ? `&filter[seasonYear]=${year}` : ""}${animeType && `&filter[subtype]=${animeType}`}`
-            )
-            .then((res) => {
-                setAnimeList(res.data.data);
-            })
-            .catch((error) => console.log(error));
+        setGenre(genre);
+        setYear(year);
+        setType(animeType);
     }
 
 
@@ -83,18 +83,18 @@ function App() {
                         placeholder="Search"
                         aria-label="Search"
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline-success">
                         Search
                     </button>
                 </form>
 
-                <FilterBar applyFilters={filterAnime}/>
+                <FilterBar applyFilters={filterAnime} setOffset={setOffset}/>
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
                     {animeList.length 
                         ? animeList.map((anime, index) => {
                                 if(animeList.length === index + 1){
-                                    return <AnimeCard forwardRef={lastAnimePost} anime={anime} key={uuidv4()}  />;
+                                    return <AnimeCard forwardRef={lastAnimePost} anime={anime} key={uuidv4()} />;
                                 }else{
                                     return (
                                         <AnimeCard

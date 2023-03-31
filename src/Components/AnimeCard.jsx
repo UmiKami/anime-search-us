@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const AnimeCard = ({ forwardRef ,anime }) => {
+const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(true);
 

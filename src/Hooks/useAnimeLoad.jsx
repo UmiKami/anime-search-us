@@ -1,26 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset) => {
+const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, animeType) => {
     const [loading, setLoading] = useState(true);
     const [count, setCount] = useState(0)
+
+    console.log("this the genre: ", genre);
+    console.log("this the year: ", year);
+    console.log("this the type: ", animeType);
 
     useEffect(() => {
         setLoading(true)
         const controller = new AbortController();
 
+        console.log("new filters detected!");
+
         axios
             .get(
                 `https://kitsu.io/api/edge/anime?page[limit]=20&page[offset]=${offset}${
                     animeTitle ? ("&filter[text]=" + animeTitle) : ""
-                }`, {
+                }${genre && `&filter[categories]=${genre}`}${year ? `&filter[seasonYear]=${year}` : ""}${animeType && `&filter[subtype]=${animeType}`}`, {
                     signal: controller.signal
                 }
             )
             .then((res) => {
-                
-                // console.log("Anime list",res.data.data);
-      
+                  
                 setAnimeList(prevList => [...prevList, ...res.data.data]);
                 setLoading(false)
                 setCount(res.data.meta.count)
@@ -30,12 +34,12 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset) => {
             });
 
         return () => controller.abort()
-    }, [animeTitle, offset]);
+    }, [animeTitle, offset, genre, year, animeType]);
 
-    useEffect(()=>{
-        setAnimeList([])
-        setOffset(0)
-    },[animeTitle])
+    useEffect(() => {
+        setAnimeList([]);
+        setOffset(0);
+    }, [animeTitle, genre, year, animeType]);
 
     return {loading, count};
 };
