@@ -31,6 +31,7 @@ function App() {
 
     const handleSubmit = (e) => {
         let inputVal = e.target.value;
+        inputVal = inputVal.replace(/\//g, "⧸");
 
         if(inputVal.length){
             navigate(`/search/${inputVal}`);
