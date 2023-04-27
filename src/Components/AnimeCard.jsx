@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import imgNotFound from "../img/image not found.jpg"
 
 const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
@@ -52,9 +53,9 @@ const AnimeCard = ({ forwardRef, anime }) => {
                     >
                         {!imgError ? (
                             <img
-                                src={anime.attributes.posterImage.large}
+                                src={(anime.attributes.posterImage && anime.attributes.posterImage.large) || imgNotFound}
                                 alt="anime poster"
-                                className="col-12"
+                                className="col-12" 
                                 onError={handleImgError}
                                 style={{ borderRadius: "15px 15px 0px 0px" }}
                             />
