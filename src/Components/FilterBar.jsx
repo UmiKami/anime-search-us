@@ -10,8 +10,10 @@ import {
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDownShortWide, faArrowUpShortWide, faArrowUpWideShort } from "@fortawesome/free-solid-svg-icons";
 
-const FilterBar = ({ applyFilters, setOffset }) => {
+const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
@@ -68,6 +70,8 @@ const FilterBar = ({ applyFilters, setOffset }) => {
         setOffset(0);
         applyFilters("", null, "");
     };
+
+
 
     return (
         <main className="mt-3 d-flex align-items-center justify-content-center flex-column flex-sm-row">
@@ -155,6 +159,23 @@ const FilterBar = ({ applyFilters, setOffset }) => {
                     className="col-sm-6"
                 >
                     Clear
+                </Button>
+            </FormControl>
+            <FormControl className="ms-3 col-12 col-sm-1">
+                <Button
+                    onClick={()=>{
+                              if (sortOrder === "-") {
+                                  setSortOrder("");
+                              } else {
+                                  setSortOrder("-");
+                              }
+                    }}
+                    variant="contained"
+                    color="success"
+                    sx={{ height: 55 }}
+                    className="col-sm-6 fs-5"
+                >
+                    <FontAwesomeIcon icon={sortOrder === "-" ? faArrowDownShortWide : faArrowUpWideShort} />
                 </Button>
             </FormControl>
         </main>

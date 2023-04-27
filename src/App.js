@@ -23,11 +23,11 @@ function App() {
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
-
+    const [sortOrder, setSortOrder] = useState("-")
     
     const { animeTitle } = useParams();
     console.log(animeTitle);
-    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type);
+    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type, sortOrder);
 
     const handleSubmit = (e) => {
         let inputVal = e.target.value;
@@ -71,6 +71,8 @@ function App() {
     }, [loading])
     console.log("from home: ",loading);
 
+
+
     return (
         <div className="App">
             <div className="container mt-5">
@@ -89,7 +91,7 @@ function App() {
                     </button>
                 </form>
 
-                <FilterBar applyFilters={filterAnime} setOffset={setOffset}/>
+                <FilterBar applyFilters={filterAnime} setOffset={setOffset} setSortOrder={setSortOrder} sortOrder={sortOrder}/>
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
                     {animeList.length 
