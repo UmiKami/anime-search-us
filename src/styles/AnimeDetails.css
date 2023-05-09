@@ -1,0 +1,48 @@
+.mainContainer {
+    background-color: #502DB1;
+    min-height: 100vh;
+    font-family: 'Roboto';
+}
+
+.summary-details {
+    background: linear-gradient(113.57deg, rgba(17, 123, 200, 0.87) 0%, rgba(17, 145, 200, 0.70) 100%);    
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-color: #00F0FF;
+    border-radius: 5px 5px 10px 10px;
+}
+
+.row-custom{
+    margin: 0px 0px;
+}
+
+.anime-attr{
+    text-transform: capitalize;
+    font-weight: 400;
+}
+
+.text-info-1{
+    color: #28FED7;
+}
+
+.light-warning{
+    color: rgb(250, 255, 174) !important;
+    background-color: orange !important;
+}
+
+.light-warning:hover{
+    cursor: default;
+}
+
+.light-success{
+    color: greenyellow !important;
+}
+
+.light-danger{
+    color: orangered !important;
+}
+
+.anime-detail-title{
+    font-size: 2.3rem;
+    color: #5ED400;
+}

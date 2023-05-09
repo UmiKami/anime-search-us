@@ -1,0 +1,7 @@
+.feedback-report_action .btn{
+    transition: transform 0.5s ease-in-out;
+}
+
+.feedback-report_action:hover .btn{
+    transform: scale(1.1) translate(0px, -5px);
+}
