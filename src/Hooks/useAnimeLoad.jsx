@@ -5,9 +5,9 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, 
     const [loading, setLoading] = useState(true);
     const [count, setCount] = useState(0)
 
-    console.log("this the genre: ", genre);
-    console.log("this the year: ", year);
-    console.log("this the type: ", animeType);
+    // console.log("this the genre: ", genre);
+    // console.log("this the year: ", year);
+    // console.log("this the type: ", animeType);
 
     useEffect(() => {
         setLoading(true)
