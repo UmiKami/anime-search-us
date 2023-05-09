@@ -15,7 +15,7 @@ const AnimeDetailsPage = () => {
     const [animeData, setAnimeData] = useState([]);
 
     // JSON.parse() turns string true or false into boolean
-    const underMaintenance = JSON.parse(process.env.REACT_APP_MAINTENANCE);
+    const underMaintenance = JSON.parse(import.meta.env.VITE_MAINTENANCE);
 
     // formats date string given by the API in| MONTH DD, YYYY | format
     const formatDate = (date) => {
