@@ -25,9 +25,13 @@ function App() {
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
     const [sortOrder, setSortOrder] = useState("-")
+
+    // feedback loop
+    const [issueDescription, setIssueDescription] = useState("")
+    const [sendReport, setSendReport] = useState(false)
     
     const { animeTitle } = useParams();
-    console.log(animeTitle);
+    // console.log(animeTitle);
     const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type, sortOrder);
 
     const handleSubmit = (e) => {
@@ -57,11 +61,11 @@ function App() {
         if(observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
             if(entries[0].isIntersecting){
-                console.log(entries[0])
-                console.log(
-                    "%cVisible",
-                    "color: green; background: yellow; font-size: 30px"
-                );
+                // console.log(entries[0])
+                // console.log(
+                //     "%cVisible",
+                //     "color: green; background: yellow; font-size: 30px"
+                // );
                 if (offset <= count){
                     setOffset(prevOffset => prevOffset + 20)
                 }
@@ -70,16 +74,88 @@ function App() {
 
         if(node) observer.current.observe(node)
     }, [loading])
-    console.log("from home: ",loading);
+    // console.log("from home: ",loading);
 
 
 
     return (
         <div className="App">
-            <FeedbackReport/>
+            <section className="feedback-report">
+                <FeedbackReport
+                    description={issueDescription}
+                    sendReport={sendReport}
+                    setSendReport={setSendReport}
+                />
+                <div
+                    className="modal fade"
+                    id="reportForm"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabindex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1
+                                    className="modal-title fs-5"
+                                    id="staticBackdropLabel"
+                                >
+                                    Bug Report Form
+                                </h1>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <form
+                                    className="d-flex flex-column align-items-start"
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        setSendReport(true);
+                                    }}
+                                >
+                                    <label htmlFor="issue" className="mb-3">
+                                        Describe Bug
+                                    </label>
+                                    <textarea
+                                        name="issue"
+                                        id="issue"
+                                        className="col-12"
+                                        rows="10"
+                                        value={issueDescription}
+                                        onChange={(e) =>
+                                            setIssueDescription(e.target.value)
+                                        }
+                                    />
+                                    <div className="d-flex gap-2 mt-2 align-self-end">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Close
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                        >
+                                            Send
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <div className="container mt-5">
                 <Navbar />
-                <form className="d-flex" role="search" >
+                <form className="d-flex" role="search">
                     <input
                         onChange={handleSubmit}
                         value={animeTitle}
@@ -88,29 +164,36 @@ function App() {
                         placeholder="Search"
                         aria-label="Search"
                     />
-                    <button className="btn btn-outline-success">
-                        Search
-                    </button>
+                    <button className="btn btn-outline-success">Search</button>
                 </form>
 
-                <FilterBar applyFilters={filterAnime} setOffset={setOffset} setSortOrder={setSortOrder} sortOrder={sortOrder}/>
+                <FilterBar
+                    applyFilters={filterAnime}
+                    setOffset={setOffset}
+                    setSortOrder={setSortOrder}
+                    sortOrder={sortOrder}
+                />
 
                 <div className="row mx-0 mt-4" style={{ maxWidth: "100%" }}>
-                    {animeList.length 
-                        ? animeList.map((anime, index) => {
-                                if(animeList.length === index + 1){
-                                    return <AnimeCard forwardRef={lastAnimePost} anime={anime} key={uuidv4()} />;
-                                }else{
-                                    return (
-                                        <AnimeCard
-                                            anime={anime}
-                                            key={uuidv4()}
-                                            
-                                        />
-                                    );
-                                }
-                          })
-                        : <NothingFound/>}
+                    {animeList.length ? (
+                        animeList.map((anime, index) => {
+                            if (animeList.length === index + 1) {
+                                return (
+                                    <AnimeCard
+                                        forwardRef={lastAnimePost}
+                                        anime={anime}
+                                        key={uuidv4()}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <AnimeCard anime={anime} key={uuidv4()} />
+                                );
+                            }
+                        })
+                    ) : (
+                        <NothingFound />
+                    )}
                 </div>
             </div>
         </div>
