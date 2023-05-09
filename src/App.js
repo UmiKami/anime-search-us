@@ -9,6 +9,7 @@ import Navbar from "./Components/Navbar";
 import FilterBar from "./Components/FilterBar";
 import NothingFound from "./Components/NothingFound";
 import useAnimeLoad from "./Hooks/useAnimeLoad";
+import FeedbackReport from "./Components/FeedbackReport";
 document.title = "Anime Search | By Umikami";
 
 
@@ -75,6 +76,7 @@ function App() {
 
     return (
         <div className="App">
+            <FeedbackReport/>
             <div className="container mt-5">
                 <Navbar />
                 <form className="d-flex" role="search" >
