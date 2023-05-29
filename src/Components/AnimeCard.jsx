@@ -5,7 +5,8 @@ import "../styles/AnimeCard.css"
 
 const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [showDateBadge, setShowDateBadge] = useState(false);
+    const [hideDateBadge, setHideDateBadge] = useState(false);
 
     const formatDate = (date) => {
         let newDate = new Date(date);
@@ -13,15 +14,7 @@ const AnimeCard = ({ forwardRef, anime }) => {
         return newDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     }
 
-    useEffect(()=>{
-        let timer = setTimeout(()=>{
-            setLoading(false)
 
-        }, 800)
-
-        return () => clearTimeout(timer)
-    },[])
-    
     const handleImgError = (error) => {
         console.log(error);
         setImgError(true)
@@ -38,7 +31,7 @@ const AnimeCard = ({ forwardRef, anime }) => {
     
     // console.log(loading);
 
-    console.log("attributes: ", anime.attributes);
+    // console.log("attributes: ", anime.attributes);
     return (
         <div
             className="d-flex flex-column col-md-3 mb-4 position-relative"
@@ -55,9 +48,28 @@ const AnimeCard = ({ forwardRef, anime }) => {
                             Airing
                         </span>
                     ) : (
-                        <span className="badge bg-warning position-absolute m-2 fs-6 animeCard-badge__label">
+                        <span
+                            className="badge bg-warning position-absolute m-2 fs-6 animeCard-badge__label"
+                            onMouseOver={() => {
+                                setShowDateBadge(true);
+                                setHideDateBadge(false)
+                                console.log("hovered");
+                            }}
+                            onMouseLeave={() => {
+                                setShowDateBadge(false);
+                                setHideDateBadge(true)
+                                console.log("left");
+                            }}
+                        >
                             Coming Soon
-                            <span className="badge bg-secondary position-absolute animeCard-badge__date fs-6">
+                            <span
+                                className={`badge bg-secondary position-absolute animeCard-badge__date fs-6 ${
+                                    showDateBadge
+                                        ? "show-badge__date"
+                                        : hideDateBadge && "hide-badge__date"
+                                       
+                                }`}
+                            >
                                 {formatDate(anime.attributes.startDate)}
                             </span>
                         </span>
