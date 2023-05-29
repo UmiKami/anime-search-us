@@ -29,9 +29,6 @@ const AnimeCard = ({ forwardRef, anime }) => {
     };
     
     
-    // console.log(loading);
-
-    // console.log("attributes: ", anime.attributes);
     return (
         <div
             className="d-flex flex-column col-md-3 mb-4 position-relative"
@@ -53,12 +50,10 @@ const AnimeCard = ({ forwardRef, anime }) => {
                             onMouseOver={() => {
                                 setShowDateBadge(true);
                                 setHideDateBadge(false)
-                                console.log("hovered");
                             }}
                             onMouseLeave={() => {
                                 setShowDateBadge(false);
                                 setHideDateBadge(true)
-                                console.log("left");
                             }}
                         >
                             Coming Soon
