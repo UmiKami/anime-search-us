@@ -161,7 +161,7 @@ const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
                     Clear
                 </Button>
             </FormControl>
-            <FormControl className="ms-3 col-12 col-sm-1">
+            <FormControl className="ms-sm-3 mt-2 mt-sm-0 col-12 col-sm-1">
                 <Button
                     onClick={()=>{
                               if (sortOrder === "-") {
