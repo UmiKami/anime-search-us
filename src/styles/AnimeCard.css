@@ -1,0 +1,75 @@
+
+.animeCard-badge__label{ 
+    cursor: pointer !important;
+}
+
+.animeCard-badge__date{
+    margin: 0;
+    padding: 0;
+    width: 0px;
+    height: 0px;
+    top: 100%;
+    left: 0;
+    overflow: hidden;
+    transition: height width 0.5s ease-in-out;
+
+  
+
+}
+
+.show-badge__date{
+    animation: animeCard-badge__date 0.2s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.hide-badge__date{
+    animation: animeCard-badge__date-hide 0.2s ease-in-out;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+}
+
+
+@keyframes animeCard-badge__date {
+    0% {
+        /* transform: translateX(-100%); */
+        height: 0px;
+    }
+    25%{
+        padding: inherit;
+        height: 100%;
+    }
+    50%{
+        padding: inherit;
+        width: 50%;
+    }
+
+
+    100% {
+
+        padding: inherit;
+        height: initial;
+        width: 150%;
+    }
+}
+
+@keyframes animeCard-badge__date-hide {
+    0% {
+        /* transform: translateX(-100%); */
+        height: 0px;
+    }
+    25%{
+        padding: inherit;
+        height: 100%;
+    }
+    50%{
+        padding: inherit;
+        width: 50%;
+    }
+
+
+    100% {
+
+        padding: inherit;
+        height: initial;
+        width: 150%;
+    }
+}

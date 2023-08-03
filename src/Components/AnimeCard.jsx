@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import imgNotFound from "../img/image not found.jpg"
+import "../styles/AnimeCard.css"
 
 const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [showDateBadge, setShowDateBadge] = useState(false);
+    const [hideDateBadge, setHideDateBadge] = useState(false);
 
-    useEffect(()=>{
-        let timer = setTimeout(()=>{
-            setLoading(false)
+    const formatDate = (date) => {
+        let newDate = new Date(date);
 
-        }, 800)
+        return newDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    }
 
-        return () => clearTimeout(timer)
-    },[])
-    
+
     const handleImgError = (error) => {
         console.log(error);
         setImgError(true)
@@ -29,12 +29,14 @@ const AnimeCard = ({ forwardRef, anime }) => {
     };
     
     
-    console.log(loading);
     return (
-        <div className="d-flex flex-column col-md-3 mb-4 position-relative" ref={forwardRef}>
-            { (
+        <div
+            className="d-flex flex-column col-md-3 mb-4 position-relative"
+            ref={forwardRef}
+        >
+            {
                 <>
-                    { anime.attributes.status === "finished" ? (
+                    {anime.attributes.status === "finished" ? (
                         <span className="badge bg-danger position-absolute m-2 fs-6">
                             Finished
                         </span>
@@ -43,8 +45,28 @@ const AnimeCard = ({ forwardRef, anime }) => {
                             Airing
                         </span>
                     ) : (
-                        <span className="badge bg-warning position-absolute m-2 fs-6">
+                        <span
+                            className="badge bg-warning position-absolute m-2 fs-6 animeCard-badge__label"
+                            onMouseOver={() => {
+                                setShowDateBadge(true);
+                                setHideDateBadge(false)
+                            }}
+                            onMouseLeave={() => {
+                                setShowDateBadge(false);
+                                setHideDateBadge(true)
+                            }}
+                        >
                             Coming Soon
+                            <span
+                                className={`badge bg-secondary position-absolute animeCard-badge__date fs-6 ${
+                                    showDateBadge
+                                        ? "show-badge__date"
+                                        : hideDateBadge && "hide-badge__date"
+                                       
+                                }`}
+                            >
+                                {formatDate(anime.attributes.startDate)}
+                            </span>
                         </span>
                     )}
                     <Link
@@ -53,9 +75,13 @@ const AnimeCard = ({ forwardRef, anime }) => {
                     >
                         {!imgError ? (
                             <img
-                                src={(anime.attributes.posterImage && anime.attributes.posterImage.large) || imgNotFound}
+                                src={
+                                    (anime.attributes.posterImage &&
+                                        anime.attributes.posterImage.large) ||
+                                    imgNotFound
+                                }
                                 alt="anime poster"
-                                className="col-12" 
+                                className="col-12"
                                 onError={handleImgError}
                                 style={{ borderRadius: "15px 15px 0px 0px" }}
                             />
@@ -77,13 +103,11 @@ const AnimeCard = ({ forwardRef, anime }) => {
                                 : Object.values(anime.attributes.titles)[1]}
                         </p>
                     </Link>
-                    <p
-                        className="bg-secondary text-light card-description"
-                    >
+                    <p className="bg-secondary text-light card-description">
                         {anime.attributes.description}
                     </p>
                 </>
-            ) }
+            }
         </div>
     );
 };
