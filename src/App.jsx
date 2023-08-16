@@ -154,7 +154,7 @@ function App() {
                 </div>
             </section>
             <div className="container mt-5">
-                <Navbar />
+                <Navbar version="alpha"/>
                 <form className="d-flex" role="search">
                     <input
                         onChange={handleSubmit}
