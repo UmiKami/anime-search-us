@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Inconsolata:wght@300;400;500;600;700&display=swap');
+
 .navhead-color {
     color: #02CA52;
     position: relative;
@@ -19,4 +21,15 @@
 
 .navhead-color:hover:before {
     width: 100%;
+
+}
+.navbar-version {
+    position: absolute;
+    font-family: 'Cherry Bomb One', cursive;
+    display: inline-block;
+    color: rgb(199, 0, 66);
+    text-transform: capitalize;
+    transform: rotate(42deg) scale(.4) !important ;
+    right: -1.5rem;
+    transform-origin: right 1.8rem;
 }
