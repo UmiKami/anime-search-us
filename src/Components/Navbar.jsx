@@ -12,7 +12,15 @@ const Navbar = ({ version }) => {
                 style={{ textDecoration: "none", width: "contain" }}
                 className="navhead-color"
             >
-                Anime Search <span className="navbar-version">{version}</span>
+                Anime Search{" "}
+                <span
+                    className="navbar-version"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right"
+                    title="This website is still in alpha. Styling will drastically change towards Beta release."
+                >
+                    {version}
+                </span>
             </Link>
         </h1>
     );
