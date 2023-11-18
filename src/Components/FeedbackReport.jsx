@@ -59,6 +59,7 @@ const FeedbackReport = ({ description, sendReport, setSendReport }) => {
             className="feedback-report_action"
             style={{
                 position: "fixed",
+                zIndex: 100,
                 right: 0,
                 top: `calc(50% - 25px)`,
                 transformOrigin: "bottom right",
