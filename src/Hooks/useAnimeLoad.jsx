@@ -9,6 +9,15 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, 
     // console.log("this the year: ", year);
     // console.log("this the type: ", animeType);
 
+    const removeDuplicates = (aniList) => {
+        const ids = aniList.map((anime) => anime.id);
+        const filtered = aniList.filter(
+            ({ id }, index) => !ids.includes(id, index + 1)
+        );
+
+        return filtered
+    }
+
     useEffect(() => {
         setLoading(true)
         const controller = new AbortController();
@@ -27,8 +36,7 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, 
                 }
             )
             .then((res) => {
-                
-                setAnimeList((prevList) => [...prevList, ...res.data.data]);
+                setAnimeList((prevList) => removeDuplicates([...prevList, ...res.data.data]));
                 setLoading(false);
                 setCount(res.data.meta.count);
             })

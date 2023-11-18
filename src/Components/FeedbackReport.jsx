@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/FeedbackReport.css";
 
 const api = axios.create({
     baseURL: "https://api.github.com",
     headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${import.meta.env.VITE_TOKEN}`,
         "X-GitHub-Api-Version": "2022-11-28",
         "Content-Type": "application/json",
     },
