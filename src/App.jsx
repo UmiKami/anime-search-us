@@ -53,7 +53,6 @@ function App() {
     }
 
 
-    // console.log(animeList);
     const observer = useRef()
 
     const lastAnimePost = useCallback(node=>{
@@ -61,11 +60,6 @@ function App() {
         if(observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
             if(entries[0].isIntersecting){
-                // console.log(entries[0])
-                // console.log(
-                //     "%cVisible",
-                //     "color: green; background: yellow; font-size: 30px"
-                // );
                 if (offset <= count){
                     setOffset(prevOffset => prevOffset + 20)
                 }
@@ -74,7 +68,7 @@ function App() {
 
         if(node) observer.current.observe(node)
     }, [loading])
-    // console.log("from home: ",loading);
+   
 
 
 
@@ -143,6 +137,7 @@ function App() {
                                         <button
                                             type="submit"
                                             className="btn btn-primary"
+                                            data-bs-dismiss="modal"
                                         >
                                             Send
                                         </button>
@@ -154,7 +149,7 @@ function App() {
                 </div>
             </section>
             <div className="container mt-5">
-                <Navbar version="alpha"/>
+                <Navbar version="alpha" />
                 <form className="d-flex" role="search">
                     <input
                         onChange={handleSubmit}
