@@ -27,12 +27,12 @@ const FeedbackReport = ({ description, sendReport, setSendReport }) => {
 
         // Check if the time difference is less than X minutes (X * 60 * 1000 milliseconds)
         if (timeDifference < minutes * 60 * 1000) {
-            console.log(`The datetime is less than ${minutes} minutes ago.`);
+            // console.log(`The datetime is less than ${minutes} minutes ago.`);
             return true
         } else {
-            console.log(
-                `The datetime is not less than ${minutes} minutes ago.`
-            );
+            // console.log(
+            //     `The datetime is not less than ${minutes} minutes ago.`
+            // );
             return false
         }
     }
@@ -50,7 +50,7 @@ const FeedbackReport = ({ description, sendReport, setSendReport }) => {
                                 console.log(issues);
                                 let foundIssues = issues.filter(issue => issue.title.includes(ip))
 
-                                console.log("Issues found: ",foundIssues);
+                                // console.log("Issues found: ",foundIssues);
 
                                 const RATE_LIMIT = 6;
                                 let currentRate = 0;
@@ -67,7 +67,7 @@ const FeedbackReport = ({ description, sendReport, setSendReport }) => {
                                     }
                                 })
 
-                                console.log("Blockrequest", blockRequest, currentRate);
+                                // console.log("Blockrequest", blockRequest, currentRate);
 
                                 return blockRequest
                             }
@@ -101,7 +101,7 @@ const FeedbackReport = ({ description, sendReport, setSendReport }) => {
                         }
                     );
 
-                    console.log(response.data);
+                    // console.log(response.data);
 
                     if (response.status === 201) {
                         setIssueCreated(true);
