@@ -17,6 +17,7 @@ const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
     const [type, setType] = useState("");
+    const [status, setStatus] = useState("");
 
     const genreOptions = [
         "Comedy",
@@ -62,11 +63,13 @@ const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
     ];
 
     const mediaTypes = ["TV", "Movie", "ONA", "OVA"];
+    const statusTypes = ["Current", "Finished", "Unreleased"];
 
     const clearFilters = () => {
         setGenre("");
         setYear(null);
         setType("");
+        setStatus("")
         setOffset(0);
         applyFilters("", null, "");
     };
@@ -139,10 +142,32 @@ const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
                     ))}
                 </Select>
             </FormControl>
+            <FormControl
+                sx={{ m: 1, minWidth: 120 }}
+                className="col-12 col-sm-1"
+            >
+                <InputLabel id="select-status">Status</InputLabel>
+                <Select
+                    labelId="select-status"
+                    id="select-status-select"
+                    value={status}
+                    label="status"
+                    onChange={(e) => setStatus(e.target.value)}
+                >
+                    <MenuItem defaultValue="" value="">
+                        <em>None</em>
+                    </MenuItem>
+                    {statusTypes.map((type, index) => (
+                        <MenuItem key={index} value={type}>
+                            {type}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
             <FormControl className="col-12 col-sm-3 d-flex gap-2 flex-sm-row flex-column">
                 <Button
                     onClick={() =>
-                        applyFilters(genre, moment(year).year(), type)
+                        applyFilters(genre, moment(year).year(), type, status.toLowerCase())
                     }
                     variant="outlined"
                     color="primary"
@@ -163,19 +188,25 @@ const FilterBar = ({ applyFilters, setOffset, setSortOrder, sortOrder }) => {
             </FormControl>
             <FormControl className="ms-sm-3 mt-2 mt-sm-0 col-12 col-sm-1">
                 <Button
-                    onClick={()=>{
-                              if (sortOrder === "-") {
-                                  setSortOrder("");
-                              } else {
-                                  setSortOrder("-");
-                              }
+                    onClick={() => {
+                        if (sortOrder === "-") {
+                            setSortOrder("");
+                        } else {
+                            setSortOrder("-");
+                        }
                     }}
                     variant="contained"
                     color="success"
                     sx={{ height: 55 }}
                     className="col-sm-6 fs-5"
                 >
-                    <FontAwesomeIcon icon={sortOrder === "-" ? faArrowDownShortWide : faArrowUpWideShort} />
+                    <FontAwesomeIcon
+                        icon={
+                            sortOrder === "-"
+                                ? faArrowDownShortWide
+                                : faArrowUpWideShort
+                        }
+                    />
                 </Button>
             </FormControl>
         </main>

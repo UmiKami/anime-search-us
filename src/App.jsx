@@ -23,6 +23,7 @@ function App() {
     // genre
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState(null);
+    const [status, setStatus] = useState("")
     const [type, setType] = useState("");
     const [sortOrder, setSortOrder] = useState("-")
 
@@ -32,7 +33,7 @@ function App() {
     
     const { animeTitle } = useParams();
     // console.log(animeTitle);
-    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type, sortOrder);
+    const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type, sortOrder, status);
 
     const handleSubmit = (e) => {
         let inputVal = e.target.value;
@@ -46,10 +47,11 @@ function App() {
         }
     };
 
-    const filterAnime = (genre, year, animeType) => {
+    const filterAnime = (genre, year, animeType, status) => {
         setGenre(genre);
         setYear(year);
         setType(animeType);
+        setStatus(status);
     }
 
 

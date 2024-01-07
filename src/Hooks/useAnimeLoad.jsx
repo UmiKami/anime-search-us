@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, animeType, sortOrder) => {
+const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, animeType, sortOrder, status) => {
     const [loading, setLoading] = useState(true);
     const [count, setCount] = useState(0)
 
@@ -30,13 +30,17 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, 
                     animeTitle ? "&filter[text]=" + animeTitle : ""
                 }${genre && `&filter[categories]=${genre}`}${
                     year ? `&filter[seasonYear]=${year}` : ""
-                }${animeType && `&filter[subtype]=${animeType}`}`,
+                }${animeType && `&filter[subtype]=${animeType}`}${
+                    status && `&filter[status]=${status}`
+                }`,
                 {
                     signal: controller.signal,
                 }
             )
             .then((res) => {
-                setAnimeList((prevList) => removeDuplicates([...prevList, ...res.data.data]));
+                setAnimeList((prevList) =>
+                    removeDuplicates([...prevList, ...res.data.data])
+                );
                 setLoading(false);
                 setCount(res.data.meta.count);
             })
@@ -45,12 +49,12 @@ const useAnimeLoad = (setAnimeList, animeTitle, offset, setOffset, genre, year, 
             });
 
         return () => controller.abort()
-    }, [animeTitle, offset, genre, year, animeType, sortOrder]);
+    }, [animeTitle, offset, genre, year, animeType, sortOrder, status]);
 
     useEffect(() => {
         setAnimeList([]);
         setOffset(0);
-    }, [animeTitle, genre, year, animeType, sortOrder]);
+    }, [animeTitle, genre, year, animeType, sortOrder, status]);
 
     return {loading, count};
 };
