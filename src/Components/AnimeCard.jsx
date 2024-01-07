@@ -1,34 +1,36 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import imgNotFound from "../img/image not found.jpg"
-import "../styles/AnimeCard.css"
+import imgNotFound from "../img/image not found.jpg";
+import "../styles/AnimeCard.css";
 
 const AnimeCard = ({ forwardRef, anime }) => {
     const [imgError, setImgError] = useState(false);
     const [showDateBadge, setShowDateBadge] = useState(false);
     const [hideDateBadge, setHideDateBadge] = useState(false);
-
+    
     const formatDate = (date) => {
         let newDate = new Date(date);
 
-        return newDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-    }
-
+        return newDate.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    };
 
     const handleImgError = (error) => {
         console.log(error);
-        setImgError(true)
-    }
-    
+        setImgError(true);
+    };
+
     const handleTitleEnter = (hoverEvent) => {
         hoverEvent.target.scroll(0, 41);
     };
-    
+
     const handleTitleOut = (hoverEvent) => {
         hoverEvent.target.scroll(0, 0);
     };
-    
-    
+
     return (
         <div
             className="d-flex flex-column col-md-3 mb-4 position-relative"
@@ -49,11 +51,11 @@ const AnimeCard = ({ forwardRef, anime }) => {
                             className="badge bg-warning position-absolute m-2 fs-6 animeCard-badge__label"
                             onMouseOver={() => {
                                 setShowDateBadge(true);
-                                setHideDateBadge(false)
+                                setHideDateBadge(false);
                             }}
                             onMouseLeave={() => {
                                 setShowDateBadge(false);
-                                setHideDateBadge(true)
+                                setHideDateBadge(true);
                             }}
                         >
                             Coming Soon
@@ -62,7 +64,6 @@ const AnimeCard = ({ forwardRef, anime }) => {
                                     showDateBadge
                                         ? "show-badge__date"
                                         : hideDateBadge && "hide-badge__date"
-                                       
                                 }`}
                             >
                                 {formatDate(anime.attributes.startDate)}
@@ -72,6 +73,7 @@ const AnimeCard = ({ forwardRef, anime }) => {
                     <Link
                         to={`/anime/${anime.id}`}
                         style={{ textDecoration: "none" }}
+                        // className="position-relative"
                     >
                         {!imgError ? (
                             <img
@@ -93,19 +95,21 @@ const AnimeCard = ({ forwardRef, anime }) => {
                                 style={{ borderRadius: "15px 15px 0px 0px" }}
                             />
                         )}
-                        <p
-                            className="fs-4 bg-primary text-light mb-0 anime-title"
-                            onMouseEnter={handleTitleEnter}
-                            onMouseOut={handleTitleOut}
-                        >
-                            {Object.values(anime.attributes.titles)[0]
-                                ? Object.values(anime.attributes.titles)[0]
-                                : Object.values(anime.attributes.titles)[1]}
-                        </p>
+                        <div className="animeCard-info position-absolute col-md-12">
+                            <p
+                                className="fs-4 bg-primary text-light mb-0 anime-title"
+                                onMouseEnter={handleTitleEnter}
+                                onMouseOut={handleTitleOut}
+                            >
+                                {Object.values(anime.attributes.titles)[0]
+                                    ? Object.values(anime.attributes.titles)[0]
+                                    : Object.values(anime.attributes.titles)[1]}
+                            </p>
+                            <p className="bg-orange-trans text-light card-description mb-0">
+                                {anime.attributes.description}
+                            </p>
+                        </div>
                     </Link>
-                    <p className="bg-secondary text-light card-description">
-                        {anime.attributes.description}
-                    </p>
                 </>
             }
         </div>
