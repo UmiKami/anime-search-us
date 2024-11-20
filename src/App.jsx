@@ -1,22 +1,19 @@
 import "./styles/App.css";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { useCallback, useRef, useState } from "react";
-import { useEffect } from "react";
 import AnimeCard from "./Components/AnimeCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import FilterBar from "./Components/FilterBar";
 import NothingFound from "./Components/NothingFound";
 import useAnimeLoad from "./Hooks/useAnimeLoad";
 import FeedbackReport from "./Components/FeedbackReport";
+import SearchBar from "./Components/SearchBar";
 document.title = "Anime Search | By Umikami";
-
 
 function App() {
     // reset title value to original state when at home page
 
-    const navigate = useNavigate();
     const [animeList, setAnimeList] = useState([]);
     const [offset, setOffset] = useState(0)
 
@@ -34,18 +31,6 @@ function App() {
     const { animeTitle } = useParams();
     // console.log(animeTitle);
     const {loading, count} = useAnimeLoad(setAnimeList, animeTitle, offset, setOffset, genre, year, type, sortOrder, status);
-
-    const handleSubmit = (e) => {
-        let inputVal = e.target.value;
-        inputVal = inputVal.replace(/\//g, "⧸");
-
-        if(inputVal.length){
-            navigate(`/search/${inputVal}`);
-
-        }else{
-            navigate("/")
-        }
-    };
 
     const filterAnime = (genre, year, animeType, status) => {
         setGenre(genre);
@@ -152,17 +137,8 @@ function App() {
             </section>
             <div className="container mt-5">
                 <Navbar version="alpha" />
-                <form className="d-flex" role="search">
-                    <input
-                        onChange={handleSubmit}
-                        value={animeTitle}
-                        className="form-control me-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                    <button className="btn btn-outline-success">Search</button>
-                </form>
+                
+                <SearchBar animeTitle={animeTitle} />
 
                 <FilterBar
                     applyFilters={filterAnime}
